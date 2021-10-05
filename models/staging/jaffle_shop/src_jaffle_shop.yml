@@ -1,0 +1,39 @@
+version: 2 
+
+sources:
+  - name: jaffle_shop
+    description: A clone for postgres database
+    database: raw
+    tables:
+     - name: customers
+       description: This is Customers table
+       columns:
+         - name: id
+           discription: Primary Key for customer table
+           tests:
+             - unique
+             - not_null
+     - name: orders
+       loaded_at_field: _etl_loaded_at
+       freshess:
+         warn_after: {count: 1, period: hour}
+         error_after: {count: 2, period: hour}
+       description: This is Customers table
+       columns:
+         - name: id
+           discription : Primary Key of Orders table
+           tests:
+             - unique
+             - not_null
+  - name: stripe
+    database: raw
+    description: This is clone for payment database from Postgres
+    tables:
+      - name: payment
+        description: This contains raw data for payments
+        columns:
+          - name: payment_id
+            description: Primary Key for payments table
+            tests:
+              - unique
+              - not_null
